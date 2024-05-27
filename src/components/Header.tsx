@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { MdDarkMode, MdLightMode } from 'react-icons/md';
 import { BsPersonCircle } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const [darkMode, setDarkMode] = useState(prefersDarkMode);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (darkMode) {
@@ -22,6 +24,7 @@ const Header = () => {
     // Aquí puedes manejar la lógica de login
     // Por ejemplo, redirigir a la página de login
     console.log('Login button clicked');
+    navigate('/login');
   };
 
   return (
