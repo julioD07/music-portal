@@ -1,26 +1,19 @@
-import { useEffect } from "react";
 import { setDarkMode, useAppDispatch, useAppSelector } from "../store";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { BsPersonCircle } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
   const darkMode = useAppSelector((state) => state.darkMode.darkMode);
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [darkMode]);
+  const navigate = useNavigate();
 
   const toggleDarkMode = () => {
     dispatch(setDarkMode(!darkMode));
   };
 
   const handleLogin = () => {
-    console.log("Login button clicked");
+    navigate("/login");
   };
 
   return (
@@ -38,7 +31,6 @@ export const Header: React.FC = () => {
             className="p-2 rounded-md flex items-center"
           >
             <BsPersonCircle className="mr-2" />
-            Login
           </button>
         </div>
       </div>

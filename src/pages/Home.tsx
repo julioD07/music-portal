@@ -1,6 +1,4 @@
-import { Header } from "../components/Header";
-import SongGrid from "../components/SongGrid";
-import Footer from "../components/Footer";
+import { Footer, Header, SongGrid } from "../components";
 
 export const Home: React.FC = () => {
   return (

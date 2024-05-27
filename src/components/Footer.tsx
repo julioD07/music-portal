@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { FaPlay, FaPause, FaForward, FaBackward } from 'react-icons/fa';
 
-const Footer: React.FC = () => {
+export const Footer: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -65,7 +65,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="w-full p-4 bg-white shadow-md text-center dark:bg-darkbg">
+    <footer className="fixed bottom-0 w-full p-4 bg-white shadow-md text-center dark:bg-darkbg">
       <div className="flex flex-col items-center">
         <div className="mb-2">
           <h2 className="text-lg font-semibold text-gray-800 dark:text-white">{song.title}</h2>
@@ -102,5 +102,3 @@ const Footer: React.FC = () => {
     </footer>
   );
 };
-
-export default Footer;
