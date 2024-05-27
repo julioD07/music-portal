@@ -1,7 +1,6 @@
-
-import Header from '../components/Header';
-import SongGrid from '../components/SongGrid';
-import Footer from '../components/Footer';
+import { Header } from "../components/Header";
+import SongGrid from "../components/SongGrid";
+import Footer from "../components/Footer";
 
 export const Home: React.FC = () => {
   return (
@@ -14,5 +13,3 @@ export const Home: React.FC = () => {
     </div>
   );
 };
-
-
