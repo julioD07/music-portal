@@ -11,7 +11,7 @@ export const Footer: React.FC = () => {
   const song = {
     title: 'Sample Song',
     artist: 'Sample Artist',
-    src: 'http://localhost:5173//audio/Cancion.mp3',
+    src: 'https://juliod07.github.io/music-portal/audio/Cancion.mp3',
   };
 
   useEffect(() => {
