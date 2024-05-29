@@ -2,6 +2,7 @@ import { setDarkMode, useAppDispatch, useAppSelector } from "../store";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { BsPersonCircle } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { FaUserPlus } from "react-icons/fa";
 
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -31,6 +32,12 @@ export const Header: React.FC = () => {
             className="p-2 rounded-md flex items-center"
           >
             <BsPersonCircle className="mr-2" />
+          </button>
+          <button
+            className="p-2 rounded-md flex items-center"
+            onClick={() => navigate("/register")}
+          >
+            <FaUserPlus className="mr-2" />
           </button>
         </div>
       </div>

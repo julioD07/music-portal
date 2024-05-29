@@ -1,6 +1,6 @@
 import { createHashRouter } from "react-router-dom";
-import { Home } from "../pages";
-import { Login } from '../pages/Login';
+import { Home, Login, Register } from "../pages";
+
 
 export const router = createHashRouter([
   {
@@ -10,5 +10,9 @@ export const router = createHashRouter([
   {
     path: "/login", // Ruta de la página de login
     element: <Login/>, // Componente que se renderizará
-  }
+  },
+  {
+    path: "/register", // Ruta de la página de registro
+    element: <Register />, // Componente que se renderizará
+  },
 ]);
