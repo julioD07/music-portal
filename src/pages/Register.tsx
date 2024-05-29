@@ -1,10 +1,55 @@
 import { Link } from "react-router-dom";
+import { useForm } from "../common/hooks";
+import Swal from "sweetalert2";
+import { httpAdapter, urlBase } from "../common/adapters/httpAdapter";
+import { ResponseRegisterHttp } from "../interfaces/Responses";
 
 export const Register: React.FC = () => {
-  const handleRegister = (e: React.FormEvent) => {
+  const { values, handleInputChange } = useForm({
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     // Lógica de registro aquí
     console.log("Register form submitted");
+    const { confirmPassword, ...rest } = values;
+
+    if (values.password !== confirmPassword) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Las contraseñas no coinciden",
+      });
+      return;
+    }
+
+    const resp = await httpAdapter.post<ResponseRegisterHttp>(`${urlBase}/api/auth/register/user`, {
+        ...rest
+    })
+
+    console.log(resp);
+
+    if (resp.ok) {
+      Swal.fire({
+        icon: "success",
+        title: "Usuario registrado",
+        text: resp.message,
+      });
+      return;
+    }
+
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: resp.message,
+    });
+    
+
+    // reset();
   };
 
   return (
@@ -33,6 +78,8 @@ export const Register: React.FC = () => {
               name="fullName"
               className="w-full p-3 border rounded-md bg-gray-50 dark:bg-gray-800 dark:text-white dark:border-gray-700"
               required
+              onChange={handleInputChange}
+              value={values.fullName}
             />
           </div>
           <div className="mb-4">
@@ -48,10 +95,11 @@ export const Register: React.FC = () => {
               name="email"
               className="w-full p-3 border rounded-md bg-gray-50 dark:bg-gray-800 dark:text-white dark:border-gray-700"
               required
+              onChange={handleInputChange}
+              value={values.email}
             />
           </div>
-          
-          
+
           <div className="mb-4">
             <label
               htmlFor="password"
@@ -65,6 +113,8 @@ export const Register: React.FC = () => {
               name="password"
               className="w-full p-3 border rounded-md bg-gray-50 dark:bg-gray-800 dark:text-white dark:border-gray-700"
               required
+              onChange={handleInputChange}
+              value={values.password}
             />
           </div>
           <div className="mb-6">
@@ -80,6 +130,8 @@ export const Register: React.FC = () => {
               name="confirmPassword"
               className="w-full p-3 border rounded-md bg-gray-50 dark:bg-gray-800 dark:text-white dark:border-gray-700"
               required
+              onChange={handleInputChange}
+              value={values.confirmPassword}
             />
           </div>
           <button

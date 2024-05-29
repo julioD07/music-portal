@@ -151,6 +151,6 @@ export class HttpAdapter {
 
 // export const urlBase = "https://oficina.unibol.com.co:3000";
 
-export const urlBase = "";
+export const urlBase = "http://localhost:3000";
 
 export const httpAdapter = new HttpAdapter();
