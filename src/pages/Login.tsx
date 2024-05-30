@@ -1,10 +1,43 @@
 import { Link } from "react-router-dom";
+import { useForm } from "../common/hooks";
+import { httpAdapter, urlBase } from "../common/adapters/httpAdapter";
+import { ResponseLoginHTTP } from "../interfaces/Responses";
+import Swal from "sweetalert2";
 
 export const Login: React.FC = () => {
-  const handleLogin = (e: React.FormEvent) => {
+  const { values, handleInputChange } = useForm({
+    email: "",
+    password: "",
+  });
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     // Lógica de autenticación aquí
     console.log("Form submitted");
+
+    const resp = await httpAdapter.post<ResponseLoginHTTP>(
+      `${urlBase}/api/auth/login`,
+      {
+        ...values,
+      }
+    );
+
+    console.log(resp);
+
+    if (resp.ok) {
+      Swal.fire({
+        icon: "success",
+        title: "Usuario autenticado Correctamente",
+        text: "Bienvenido",
+      });
+      return;
+    }
+
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: resp.message,
+    });
+
   };
 
   return (
@@ -33,6 +66,8 @@ export const Login: React.FC = () => {
               name="email"
               className="w-full p-3 border rounded-md bg-gray-50 dark:bg-gray-800 dark:text-white dark:border-gray-700"
               required
+              onChange={handleInputChange}
+              value={values.email}
             />
           </div>
           <div className="mb-6">
@@ -48,6 +83,8 @@ export const Login: React.FC = () => {
               name="password"
               className="w-full p-3 border rounded-md bg-gray-50 dark:bg-gray-800 dark:text-white dark:border-gray-700"
               required
+              onChange={handleInputChange}
+              value={values.password}
             />
           </div>
           <button

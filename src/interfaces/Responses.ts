@@ -20,3 +20,17 @@ export interface Role {
     userId: string;
 }
 
+
+export interface ResponseLoginHTTP {
+    ok:    boolean;
+    token: string;
+    user:  UserLogin;
+    message?: string;
+}
+
+export interface UserLogin {
+    id:       string;
+    email:    string;
+    fullName: string;
+    roles:    string[];
+}
