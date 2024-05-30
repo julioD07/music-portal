@@ -93,7 +93,7 @@ export const Reproductor: React.FC = () => {
   };
 
   return (
-    <footer className="fixed bottom-0 left-0 w-full bg-gray-900 text-white p-4 flex items-center justify-between">
+    <footer className="fixed bottom-0 left-0 w-full bg-gray-900 text-white p-4 flex items-center justify-between mt-10">
       <div className="flex items-center">
         <img
           src={song.imageUrl}
