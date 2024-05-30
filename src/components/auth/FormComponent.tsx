@@ -33,6 +33,7 @@ export const FormComponent = ({
           </h2>
           <form onSubmit={handleForm}>
             {children}
+            <br />
             <button
               type="submit"
               className="w-full py-3 bg-buttoncolor text-white rounded-md hover:bg-buttonhover transition-colors"
