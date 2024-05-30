@@ -1,4 +1,4 @@
-import { setDarkMode, useAppDispatch, useAppSelector } from "../store";
+import { setDarkMode, useAppDispatch, useAppSelector } from "../../store";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import { BsPersonCircle } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
