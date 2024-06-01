@@ -51,6 +51,14 @@ export const FormComponent = ({
               {textLink}
             </Link>
           </p>
+          <p className="mt-4 text-center text-gray-600 dark:text-gray-400">
+            <Link
+              to="/"
+              className="text-buttoncolor hover:underline"
+            >
+              Volver al inicio
+            </Link>
+          </p>
         </div>
       </div>
       <br />

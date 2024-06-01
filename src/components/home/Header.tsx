@@ -1,6 +1,6 @@
 import { setDarkMode, useAppDispatch, useAppSelector } from "../../store";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
-import { BsPersonCircle } from "react-icons/bs";
+import { Bs0Circle, BsPersonCircle } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { FaUserPlus } from "react-icons/fa";
 
@@ -38,6 +38,12 @@ export const Header: React.FC = () => {
             onClick={() => navigate("/register")}
           >
             <FaUserPlus className="mr-2" />
+          </button>
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="p-2 rounded-md"
+          >
+            <Bs0Circle />
           </button>
         </div>
       </div>

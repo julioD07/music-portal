@@ -4,4 +4,4 @@ export * from './Layout';
 export * from './home/SongGrid';
 export * from "./dashboard/DashboardLayout"
 export * from "./Reproductor"
-export * from "./auth/FormComponent"
+export * from "./auth/index"

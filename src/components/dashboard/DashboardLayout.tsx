@@ -33,7 +33,7 @@ export const DashboardLayout: React.FC = () => {
             <ul>
               <li className="mb-2">
                 <Link
-                  to="home"
+                  to="/"
                   className="flex items-center p-2 pl-6 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
                 >
                   <FaHome className="mr-2" />

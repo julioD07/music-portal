@@ -1,6 +1,8 @@
 import { createHashRouter } from "react-router-dom";
 import { Dashboard, Home, Login, Register } from "../pages";
-import { DashboardLayout } from "../components";
+import { DashboardLayout, ProtectedRoute } from "../components";
+
+
 
 
 export const router = createHashRouter([
@@ -18,7 +20,11 @@ export const router = createHashRouter([
   },
   {
     path: "/dashboard", // Ruta de la página de dashboard
-    element: <DashboardLayout />, // Componente que se renderizará
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout />
+      </ProtectedRoute>
+    ), // Componente que se renderizará
     children: [
       {
         path: "",
