@@ -1,4 +1,3 @@
-// src/redux/authSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface UserState {
@@ -12,7 +11,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  user: null,
+  user: JSON.parse(localStorage.getItem('user') || 'null'),
 };
 
 const authSlice = createSlice({
@@ -21,9 +20,11 @@ const authSlice = createSlice({
   reducers: {
     setUser(state, action: PayloadAction<UserState>) {
       state.user = action.payload;
+      localStorage.setItem('user', JSON.stringify(action.payload));
     },
     logoutUser(state) {
       state.user = null;
+      localStorage.removeItem('user');
     },
   },
 });

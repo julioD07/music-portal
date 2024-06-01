@@ -1,7 +1,6 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { darkModeReducer } from './slices/darkModeSlice';
-import { authReducer } from './slices/authSlice';
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import { configureStore } from "@reduxjs/toolkit";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { authReducer, darkModeReducer } from "./slices";
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +10,7 @@ export const store = configureStore({
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
 

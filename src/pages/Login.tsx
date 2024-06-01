@@ -1,4 +1,3 @@
-// src/pages/Login.tsx
 import { useNavigate } from "react-router-dom";
 import { useForm } from "../common/hooks";
 import { httpAdapter, urlBase } from "../common/adapters/httpAdapter";
@@ -10,8 +9,7 @@ import { FormField } from "../components/auth/FormField";
 import { useAppDispatch } from "../store";
 import { setUser } from "../store/slices";
 
-
-export const Login: React.FC = () => {
+export const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { values, handleInputChange } = useForm({
