@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Reproductor } from "../Reproductor";
 
 interface FormComponentProps {
   titulo: string;
@@ -62,7 +61,7 @@ export const FormComponent = ({
         </div>
       </div>
       <br />
-      <Reproductor />
+      {/* <Reproductor /> */}
     </>
   );
 };

@@ -1,7 +1,7 @@
 import { Outlet, Link } from "react-router-dom";
 import { FaHome, FaUser, FaCog, FaBars } from "react-icons/fa";
 import { useState } from "react";
-import { Reproductor } from "../Reproductor";
+
 
 export const DashboardLayout: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -11,6 +11,7 @@ export const DashboardLayout: React.FC = () => {
   };
 
   return (
+    <>
     <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-darkbg">
       <div className="flex flex-grow">
         <button
@@ -65,7 +66,8 @@ export const DashboardLayout: React.FC = () => {
           <Outlet />
         </main>
       </div>
-      <Reproductor />
     </div>
+      {/* <Reproductor /> */}
+    </>
   );
 };

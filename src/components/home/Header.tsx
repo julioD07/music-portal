@@ -1,6 +1,6 @@
 import { setDarkMode, useAppDispatch, useAppSelector } from "../../store";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
-import { Bs0Circle, BsPersonCircle } from "react-icons/bs";
+import { BsPersonCircle } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { FaUserPlus } from "react-icons/fa";
 
@@ -11,10 +11,6 @@ export const Header: React.FC = () => {
 
   const toggleDarkMode = () => {
     dispatch(setDarkMode(!darkMode));
-  };
-
-  const handleLogin = () => {
-    navigate("/login");
   };
 
   return (
@@ -28,7 +24,7 @@ export const Header: React.FC = () => {
             {darkMode ? <MdLightMode /> : <MdDarkMode />}
           </button>
           <button
-            onClick={handleLogin}
+            onClick={() => navigate("/dashboard")}
             className="p-2 rounded-md flex items-center"
           >
             <BsPersonCircle className="mr-2" />
@@ -39,12 +35,12 @@ export const Header: React.FC = () => {
           >
             <FaUserPlus className="mr-2" />
           </button>
-          <button
+          {/* <button
             onClick={() => navigate("/dashboard")}
             className="p-2 rounded-md"
           >
             <Bs0Circle />
-          </button>
+          </button> */}
         </div>
       </div>
     </header>

@@ -1,5 +1,4 @@
 import { Header, SongGrid } from "../components";
-import { Reproductor } from "../components/Reproductor";
 
 export const Home: React.FC = () => {
   return (
@@ -9,7 +8,7 @@ export const Home: React.FC = () => {
         <SongGrid />
       </main>
       {/* <Footer /> */}
-      <Reproductor />
+      {/* <Reproductor /> */}
     </div>
   );
 };
