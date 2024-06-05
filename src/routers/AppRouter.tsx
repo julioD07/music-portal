@@ -1,6 +1,7 @@
 import { createHashRouter } from "react-router-dom";
-import { Dashboard, Home, Login, Register } from "../pages";
+import { Dashboard, Home, Login, Register, Upload } from "../pages";
 import { DashboardLayout, ProtectedRoute } from "../components";
+
 
 export const router = createHashRouter([
   {
@@ -27,6 +28,18 @@ export const router = createHashRouter([
         path: "",
         element: <Dashboard />,
       },
+      {
+        path: "upload",
+        element: <Upload />,
+      },
+      {
+        path: "profile",
+        element: <h1>Perfil</h1>,
+      },
+      {
+        path: "settings",
+        element: <h1>Configuración</h1>,
+      }
     ],
   },
 ]);

@@ -93,19 +93,19 @@ export const Reproductor: React.FC = () => {
   };
 
   return (
-    <footer className="fixed bottom-0 left-0 w-full bg-gray-900 text-white p-4 flex items-center justify-between mt-10">
-      <div className="flex items-center">
+    <footer className="fixed bottom-0 left-0 w-full bg-gray-900 text-white p-4 flex flex-col sm:flex-row items-center justify-between mt-10">
+      <div className="flex items-center mb-4 sm:mb-0">
         <img
           src={song.imageUrl}
           alt={song.title}
-          className="w-16 h-16 object-cover rounded"
+          className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded"
         />
         <div className="ml-4">
           <h3 className="text-lg font-semibold">{song.title}</h3>
           <p className="text-gray-400">{song.artist}</p>
         </div>
       </div>
-      <div className="flex items-center flex-grow justify-center mx-4">
+      <div className="flex items-center flex-grow justify-center mx-4 mb-4 sm:mb-0">
         <button onClick={handleSkipBackward} className="mx-2">
           <FaBackward />
         </button>
@@ -115,8 +115,8 @@ export const Reproductor: React.FC = () => {
         <button onClick={handleSkipForward} className="mx-2">
           <FaForward />
         </button>
-        <div className="flex items-center mx-4 w-full max-w-md">
-          <span>{formatTime(currentTime)}</span>
+        <div className="flex items-center mx-4 w-full max-w-xs sm:max-w-md">
+          <span className="text-xs sm:text-base">{formatTime(currentTime)}</span>
           <input
             type="range"
             value={progress}
@@ -129,7 +129,7 @@ export const Reproductor: React.FC = () => {
             }}
             className="mx-2 w-full"
           />
-          <span>{formatTime(duration)}</span>
+          <span className="text-xs sm:text-base">{formatTime(duration)}</span>
         </div>
       </div>
       <div className="flex items-center">
@@ -143,7 +143,7 @@ export const Reproductor: React.FC = () => {
           min="0"
           max="1"
           step="0.01"
-          className="mx-2 w-24"
+          className="mx-2 w-16 sm:w-24"
         />
         <button className="mx-2">
           <FaArrowsAlt />
