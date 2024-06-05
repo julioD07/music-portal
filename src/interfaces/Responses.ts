@@ -2,6 +2,7 @@ export interface ResponseRegisterHttp {
   ok: boolean;
   user: User;
   message: string;
+  token: string;
 }
 
 export interface User {
