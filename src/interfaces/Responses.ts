@@ -43,3 +43,14 @@ export interface ResponseValidateToken {
   isActive: boolean;
   roles: string[];
 }
+
+export interface ResponseUploadSong {
+  id:        string;
+  name:      string;
+  artist:    string;
+  filename:  string;
+  mimetype:  string;
+  path:      string;
+  createdAt: Date;
+}
+
