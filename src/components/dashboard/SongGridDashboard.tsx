@@ -1,20 +1,43 @@
 import { FaPlay } from "react-icons/fa";
+import { useAppDispatch } from "../../store";
+import { setSong } from "../../store/slices";
 
-type Song = {
-    id: number;
-    title: string;
-    artist: string;
-    imageUrl: string;
-  };
+// type Song = {
+//     id: number;
+//     title: string;
+//     artist: string;
+//     imageUrl: string;
+// };
+
+export interface ResponseSongs {
+  id:        string;
+  name:      string;
+  artist:    string;
+  filename:  string;
+  mimetype:  string;
+  path:      string;
+  createdAt: Date;
+  userId:    string;
+}
   
   type SongsGridProps = {
-    songs: Song[];
+    songs: ResponseSongs[];
   };
   
   export const SongsGridDashboard: React.FC<SongsGridProps> = ({ songs }) => {
-    const handlePlay = (song: Song) => {
-        console.log(`Playing song: ${song.title} by ${song.artist}`);
+    const dispatch = useAppDispatch();
+    const handlePlay = (song: ResponseSongs) => {
+        console.log(`Playing song: ${song.name} by ${song.artist} with id: ${song.id}`);
         // Lógica para reproducir la canción
+        console.log(`http://localhost:3000/api/music/file/${song.id}`);
+        dispatch(
+          setSong({
+            title: song.name,
+            artist: song.artist,
+            imageUrl: "https://via.placeholder.com/150",
+            src: `http://localhost:3000/api/music/file/${song.id}.mp3`,
+          })
+        );
       };
     return (
         <div className="p-4">
@@ -22,9 +45,9 @@ type Song = {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {songs.map((song) => (
             <div key={song.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-              <img src={song.imageUrl} alt={song.title} className="w-full h-48 object-cover" />
+              <img src={"https://via.placeholder.com/150"} alt={song.name} className="w-full h-48 object-cover" />
               <div className="p-4">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{song.title}</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{song.name}</h3>
                 <p className="text-gray-700 dark:text-gray-400">{song.artist}</p>
                 <button
                   onClick={() => handlePlay(song)}

@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { authReducer, darkModeReducer } from "./slices";
+import { authReducer, darkModeReducer, songReducer } from "./slices";
 
 export const store = configureStore({
   reducer: {
     darkMode: darkModeReducer,
     auth: authReducer,
+    song: songReducer,
   },
 });
 

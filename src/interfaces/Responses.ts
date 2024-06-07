@@ -54,3 +54,13 @@ export interface ResponseUploadSong {
   createdAt: Date;
 }
 
+export interface ResponseSongs {
+  id:        string;
+  name:      string;
+  artist:    string;
+  filename:  string;
+  mimetype:  string;
+  path:      string;
+  createdAt: Date;
+  userId:    string;
+}
