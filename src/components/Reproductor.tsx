@@ -1,13 +1,7 @@
-import { useState, useRef, useEffect } from "react";
-import {
-  FaPlay,
-  FaPause,
-  FaForward,
-  FaBackward,
-  FaVolumeUp,
-  FaVolumeMute,
-  FaArrowsAlt,
-} from "react-icons/fa";
+import { useState, useRef, useEffect } from 'react';
+import { FaPlay, FaPause, FaForward, FaBackward, FaVolumeUp, FaVolumeMute, FaArrowsAlt } from 'react-icons/fa';
+import { useAppSelector } from '../store';
+
 
 export const Reproductor: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -18,78 +12,98 @@ export const Reproductor: React.FC = () => {
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
 
-  const song = {
-    title: "Sample Song",
-    artist: "Sample Artist",
-    imageUrl: "https://via.placeholder.com/150",
-    src: "http://localhost:5173/audio/Cancion.mp3",
-  };
+  const song = useAppSelector((state) => state.song);
 
   useEffect(() => {
-    const updateProgress = () => {
-      if (audioRef.current) {
-        setProgress(
-          (audioRef.current.currentTime / audioRef.current.duration) * 100
-        );
-        setCurrentTime(audioRef.current.currentTime);
-        setDuration(audioRef.current.duration);
+    const audioElement = audioRef.current;
+
+    const handleLoadedData = () => {
+      if (audioElement) {
+        setDuration(audioElement.duration);
+        setCurrentTime(0);
+        setProgress(0);
+        setIsPlaying(false);
       }
     };
 
-    const audioElement = audioRef.current;
+    const handleTimeUpdate = () => {
+      if (audioElement) {
+        setCurrentTime(audioElement.currentTime);
+        setProgress((audioElement.currentTime / audioElement.duration) * 100);
+      }
+    };
+
+    const handleError = () => {
+      console.error("Error loading audio source");
+      setIsPlaying(false);
+    };
+
     if (audioElement) {
-      audioElement.addEventListener("timeupdate", updateProgress);
+      audioElement.addEventListener('loadeddata', handleLoadedData);
+      audioElement.addEventListener('timeupdate', handleTimeUpdate);
+      audioElement.addEventListener('error', handleError);
+      audioElement.load();
     }
+
+    handlePlayPause();
 
     return () => {
       if (audioElement) {
-        audioElement.removeEventListener("timeupdate", updateProgress);
+        audioElement.removeEventListener('loadeddata', handleLoadedData);
+        audioElement.removeEventListener('timeupdate', handleTimeUpdate);
+        audioElement.removeEventListener('error', handleError);
       }
     };
-  }, []);
+    
+  }, [song.src]);
 
   const handlePlayPause = () => {
-    if (audioRef.current) {
+    const audioElement = audioRef.current;
+    if (audioElement) {
       if (isPlaying) {
-        audioRef.current.pause();
+        audioElement.pause();
       } else {
-        audioRef.current.play();
+        audioElement.play();
       }
       setIsPlaying(!isPlaying);
     }
   };
 
   const handleSkipForward = () => {
-    if (audioRef.current) {
-      audioRef.current.currentTime += 10; // Avanzar 10 segundos
+    const audioElement = audioRef.current;
+    if (audioElement) {
+      audioElement.currentTime += 10;
     }
   };
 
   const handleSkipBackward = () => {
-    if (audioRef.current) {
-      audioRef.current.currentTime -= 10; // Retroceder 10 segundos
+    const audioElement = audioRef.current;
+    if (audioElement) {
+      audioElement.currentTime -= 10;
     }
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
-    if (audioRef.current) {
-      audioRef.current.volume = newVolume;
+    const audioElement = audioRef.current;
+    if (audioElement) {
+      audioElement.volume = newVolume;
     }
   };
 
   const toggleMute = () => {
-    if (audioRef.current) {
+    const audioElement = audioRef.current;
+    if (audioElement) {
       setIsMuted(!isMuted);
-      audioRef.current.muted = !isMuted;
+      audioElement.muted = !isMuted;
     }
   };
 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
 
   return (
@@ -119,12 +133,11 @@ export const Reproductor: React.FC = () => {
           <span className="text-xs sm:text-base">{formatTime(currentTime)}</span>
           <input
             type="range"
-            value={progress}
+            value={isNaN(progress) ? 0 : progress}
             onChange={(e) => {
-              if (audioRef.current) {
-                audioRef.current.currentTime =
-                  (parseFloat(e.target.value) / 100) *
-                  audioRef.current.duration;
+              const audioElement = audioRef.current;
+              if (audioElement) {
+                audioElement.currentTime = (parseFloat(e.target.value) / 100) * audioElement.duration;
               }
             }}
             className="mx-2 w-full"
