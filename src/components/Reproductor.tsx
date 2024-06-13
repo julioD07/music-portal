@@ -1,122 +1,49 @@
-import { useState, useRef, useEffect } from 'react';
-import { FaPlay, FaPause, FaForward, FaBackward, FaVolumeUp, FaVolumeMute, FaArrowsAlt } from 'react-icons/fa';
-import { useAppSelector } from '../store';
-
+import {
+  FaPlay,
+  FaPause,
+  FaForward,
+  FaBackward,
+  FaVolumeUp,
+  FaVolumeMute,
+  FaArrowsAlt,
+} from "react-icons/fa";
+import { useReproductor } from "../common/hooks/useReproductor";
+import { useAppDispatch } from "../store";
+import { setCurrentTime } from "../store/slices";
 
 export const Reproductor: React.FC = () => {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(1);
-  const [isMuted, setIsMuted] = useState(false);
+  const dispatch = useAppDispatch();
 
-  const song = useAppSelector((state) => state.song);
-
-  useEffect(() => {
-    const audioElement = audioRef.current;
-
-    const handleLoadedData = () => {
-      if (audioElement) {
-        setDuration(audioElement.duration);
-        setCurrentTime(0);
-        setProgress(0);
-        setIsPlaying(false);
-      }
-    };
-
-    const handleTimeUpdate = () => {
-      if (audioElement) {
-        setCurrentTime(audioElement.currentTime);
-        setProgress((audioElement.currentTime / audioElement.duration) * 100);
-      }
-    };
-
-    const handleError = () => {
-      console.error("Error loading audio source");
-      setIsPlaying(false);
-    };
-
-    if (audioElement) {
-      audioElement.addEventListener('loadeddata', handleLoadedData);
-      audioElement.addEventListener('timeupdate', handleTimeUpdate);
-      audioElement.addEventListener('error', handleError);
-      audioElement.load();
-    }
-
-    handlePlayPause();
-
-    return () => {
-      if (audioElement) {
-        audioElement.removeEventListener('loadeddata', handleLoadedData);
-        audioElement.removeEventListener('timeupdate', handleTimeUpdate);
-        audioElement.removeEventListener('error', handleError);
-      }
-    };
-    
-  }, [song.src]);
-
-  const handlePlayPause = () => {
-    const audioElement = audioRef.current;
-    if (audioElement) {
-      if (isPlaying) {
-        audioElement.pause();
-      } else {
-        audioElement.play();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
-
-  const handleSkipForward = () => {
-    const audioElement = audioRef.current;
-    if (audioElement) {
-      audioElement.currentTime += 10;
-    }
-  };
-
-  const handleSkipBackward = () => {
-    const audioElement = audioRef.current;
-    if (audioElement) {
-      audioElement.currentTime -= 10;
-    }
-  };
-
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseFloat(e.target.value);
-    setVolume(newVolume);
-    const audioElement = audioRef.current;
-    if (audioElement) {
-      audioElement.volume = newVolume;
-    }
-  };
-
-  const toggleMute = () => {
-    const audioElement = audioRef.current;
-    if (audioElement) {
-      setIsMuted(!isMuted);
-      audioElement.muted = !isMuted;
-    }
-  };
-
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-  };
+  const {
+    imageUrl,
+    title,
+    artist,
+    handleSkipBackward,
+    handleSkipForward,
+    isMuted,
+    isPlaying,
+    handlePlayPause,
+    handleMuteToggle,
+    handleVolumeChange,
+    formatTime,
+    volume,
+    currentTime,
+    duration,
+    audioRef,
+    src,
+  } = useReproductor();
 
   return (
     <footer className="fixed bottom-0 left-0 w-full bg-gray-900 text-white p-4 flex flex-col sm:flex-row items-center justify-between mt-10">
       <div className="flex items-center mb-4 sm:mb-0">
         <img
-          src={song.imageUrl}
-          alt={song.title}
+          src={imageUrl}
+          alt={title}
           className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded"
         />
         <div className="ml-4">
-          <h3 className="text-lg font-semibold">{song.title}</h3>
-          <p className="text-gray-400">{song.artist}</p>
+          <h3 className="text-lg font-semibold">{title}</h3>
+          <p className="text-gray-400">{artist}</p>
         </div>
       </div>
       <div className="flex items-center flex-grow justify-center mx-4 mb-4 sm:mb-0">
@@ -130,14 +57,22 @@ export const Reproductor: React.FC = () => {
           <FaForward />
         </button>
         <div className="flex items-center mx-4 w-full max-w-xs sm:max-w-md">
-          <span className="text-xs sm:text-base">{formatTime(currentTime)}</span>
+          <span className="text-xs sm:text-base">
+            {formatTime(currentTime)}
+          </span>
           <input
             type="range"
-            value={isNaN(progress) ? 0 : progress}
+            value={
+              isNaN((currentTime / duration) * 100)
+                ? 0
+                : (currentTime / duration) * 100
+            }
             onChange={(e) => {
               const audioElement = audioRef.current;
               if (audioElement) {
-                audioElement.currentTime = (parseFloat(e.target.value) / 100) * audioElement.duration;
+                audioElement.currentTime =
+                  (parseFloat(e.target.value) / 100) * audioElement.duration;
+                dispatch(setCurrentTime(audioElement.currentTime));
               }
             }}
             className="mx-2 w-full"
@@ -146,7 +81,7 @@ export const Reproductor: React.FC = () => {
         </div>
       </div>
       <div className="flex items-center">
-        <button onClick={toggleMute} className="mx-2">
+        <button onClick={handleMuteToggle} className="mx-2">
           {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
         </button>
         <input
@@ -162,7 +97,7 @@ export const Reproductor: React.FC = () => {
           <FaArrowsAlt />
         </button>
       </div>
-      <audio ref={audioRef} src={song.src} />
+      <audio ref={audioRef} src={src} />
     </footer>
   );
 };

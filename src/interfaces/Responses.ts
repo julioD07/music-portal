@@ -45,6 +45,11 @@ export interface ResponseValidateToken {
 }
 
 export interface ResponseUploadSong {
+  ok: boolean;
+  song: Song;
+}
+
+export interface Song {
   id:        string;
   name:      string;
   artist:    string;

@@ -3,6 +3,7 @@ import { useForm } from "../../common/hooks";
 import { httpAdapter, urlBase } from "../../common/adapters/httpAdapter";
 import { ResponseUploadSong } from "../../interfaces/Responses";
 import { useAppSelector } from "../../store";
+import Swal from "sweetalert2";
 
 interface UploadProps {
   songTitle: string;
@@ -96,6 +97,22 @@ export const Upload = () => {
       );
 
       console.log(resp);
+
+      if (resp.ok) {
+        setFile(null);
+        setBackgroundImage(null);
+        setError(null);
+        values.songTitle = "";
+        values.artist = "";
+
+        Swal.fire({
+          title: "Canción subida",
+          text: "La canción se ha subido correctamente.",
+          icon: "success",
+          confirmButtonText: "Aceptar",
+        });
+      }
+
     } else {
       setError(
         "Por favor, complete todos los campos y seleccione un archivo MP3 válido."
