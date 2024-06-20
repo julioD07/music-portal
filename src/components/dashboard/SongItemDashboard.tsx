@@ -5,14 +5,14 @@ import { ResponseSongs } from "./SongGridDashboard";
 interface SongItemDashboardProps {
   song: ResponseSongs;
   handlePlay: (song: ResponseSongs) => void;
-  // handleDelete: (songId: string) => void;
+  handleDelete: (songId: ResponseSongs) => void;
 }
 
-export const SongItemDashboard = ({ song, handlePlay,  }: SongItemDashboardProps) => {
+export const SongItemDashboard = ({ song, handlePlay, handleDelete }: SongItemDashboardProps) => {
   return (
     <div key={song.id} className="relative bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
       <button
-        // onClick={() => handleDelete(song.id)}
+        onClick={() => handleDelete(song)}
         className="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors"
       >
         <FaTimes />

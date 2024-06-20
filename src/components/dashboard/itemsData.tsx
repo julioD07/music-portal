@@ -18,16 +18,16 @@ export const itemsSidebarData = [
         icon: <FaHome className="mr-2"/>,
         link: "/"
     },
-    {
-        name: "Profile",
-        icon: <FaUser className="mr-2"/>,
-        link: "profile"
-    },
-    {
-        name: "Settings",
-        icon: <FaCog className="mr-2"/>,
-        link: "settings"
-    },
+    // {
+    //     name: "Profile",
+    //     icon: <FaUser className="mr-2"/>,
+    //     link: "profile"
+    // },
+    // {
+    //     name: "Settings",
+    //     icon: <FaCog className="mr-2"/>,
+    //     link: "settings"
+    // },
     {
         name: "Logout",
         icon: <FaSignOutAlt className="mr-2"/>,

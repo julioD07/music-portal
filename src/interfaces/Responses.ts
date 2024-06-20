@@ -70,3 +70,10 @@ export interface ResponseSongs {
   createdAt: Date;
   userId:    string;
 }
+
+export interface ResponseDelete {
+  ok:        boolean;
+  message:   string;
+  error?:     string;
+  statusCode?: number;
+}
