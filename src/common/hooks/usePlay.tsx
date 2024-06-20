@@ -15,7 +15,11 @@ export const usePlay = () => {
       setSong({
         title: song.name,
         artist: song.artist,
-        imageUrl: "https://via.placeholder.com/150",
+        imageUrl: `${
+          song.pathImage !== "https://via.placeholder.com/150"
+            ? urlBase + "/api/music/image/" + song.pathImage
+            : "https://via.placeholder.com/150"
+        }`,
         src: `${urlBase}/api/music/file/${song.id}.mp3`,
       })
     );

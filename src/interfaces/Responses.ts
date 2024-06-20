@@ -66,6 +66,7 @@ export interface ResponseSongs {
   filename:  string;
   mimetype:  string;
   path:      string;
+  pathImage: string;
   createdAt: Date;
   userId:    string;
 }

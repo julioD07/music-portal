@@ -1,124 +1,18 @@
-import { useState, DragEvent, ChangeEvent, useRef } from "react";
-import { useForm } from "../../common/hooks";
-import { httpAdapter, urlBase } from "../../common/adapters/httpAdapter";
-import { ResponseUploadSong } from "../../interfaces/Responses";
-import { useAppSelector } from "../../store";
-import Swal from "sweetalert2";
-
-interface UploadProps {
-  songTitle: string;
-  artist: string;
-}
+import { useUpload } from "../../common/hooks/useUpload";
 
 export const Upload = () => {
-  const [file, setFile] = useState<File | null>(null);
-  const [backgroundImage, setBackgroundImage] = useState<File | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const backgroundImageInputRef = useRef<HTMLInputElement | null>(null);
-  const user = useAppSelector((state) => state.auth.user);
-
-  const { values, handleInputChange } = useForm<UploadProps>({
-    songTitle: "",
-    artist: "",
-  });
-
-  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const droppedFile = e.dataTransfer.files[0];
-
-    if (droppedFile && droppedFile.type === "audio/mpeg") {
-      setFile(droppedFile);
-      setError(null);
-    } else {
-      setError("Solo se permiten archivos MP3.");
-    }
-  };
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-
-    if (selectedFile && selectedFile.type === "audio/mpeg") {
-      setFile(selectedFile);
-      setError(null);
-    } else {
-      setError("Solo se permiten archivos MP3.");
-    }
-  };
-
-  const handleBackgroundImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-
-    if (selectedFile) {
-      setBackgroundImage(selectedFile);
-      setError(null);
-    } else {
-      setError("Por favor, seleccione una imagen válida.");
-    }
-  };
-
-  const handleClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleBackgroundImageClick = () => {
-    backgroundImageInputRef.current?.click();
-  };
-
-  const handleSubmit = async () => {
-    if (file && values.songTitle && values.artist) {
-      // Aquí iría la lógica para subir el archivo al servidor junto con los demás datos
-      console.log("Archivo subido:", file);
-      console.log("Título de la canción:", values.songTitle);
-      console.log("Artista:", values.artist);
-      if (backgroundImage) {
-        console.log("Imagen de fondo:", backgroundImage);
-      }
-
-      const formData = new FormData();
-      formData.append("name", values.songTitle);
-      formData.append("artist", values.artist);
-      formData.append("file", file);
-
-      //? Limpiamos los campos
-      const resp = await httpAdapter.postFile<ResponseUploadSong>(
-        `${urlBase}/api/music`,
-        formData,
-        {
-          "Content-Type": "multipart/form-data",
-          "Authorization": `Bearer ${user?.token}`,
-        }
-      );
-
-      console.log(resp);
-
-      if (resp.ok) {
-        setFile(null);
-        setBackgroundImage(null);
-        setError(null);
-        values.songTitle = "";
-        values.artist = "";
-
-        Swal.fire({
-          title: "Canción subida",
-          text: "La canción se ha subido correctamente.",
-          icon: "success",
-          confirmButtonText: "Aceptar",
-        });
-      }
-
-    } else {
-      setError(
-        "Por favor, complete todos los campos y seleccione un archivo MP3 válido."
-      );
-    }
-  };
+  const {
+    values,
+    handleClick,
+    handleInputChange,
+    handleDragOver,
+    error,
+    handleDrop,
+    handleSubmit,
+    handleFileChange,
+    file,
+    fileInputRef,
+  } = useUpload();
 
   return (
     <div className="max-w-lg mx-auto p-4">
@@ -164,23 +58,7 @@ export const Upload = () => {
           className="hidden"
         />
       </div>
-      <div
-        onClick={handleBackgroundImageClick}
-        className="border-4 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer mb-4"
-      >
-        {backgroundImage ? (
-          <p>{backgroundImage.name}</p>
-        ) : (
-          <p>Haga clic para seleccionar una imagen de fondo</p>
-        )}
-        <input
-          type="file"
-          accept="image/*"
-          ref={backgroundImageInputRef}
-          onChange={handleBackgroundImageChange}
-          className="hidden"
-        />
-      </div>
+
       {error && <p className="text-red-500 mt-2">{error}</p>}
       {/* Hacemos el boton tipo Block */}
       <button
